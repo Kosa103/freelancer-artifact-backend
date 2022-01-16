@@ -7,7 +7,10 @@ Uses node.js, typescript, express, sqlite
 ## HOW TO BUILD AND RUN
 
 npx tsc
+
 node dist/app.js
 
+
 npx tsc compiles typescript code in "src/" into "dist/"
+
 node dist/app.js runs the compiled code.
