@@ -1,29 +1,29 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config({path: __dirname + '/../.env'});
+import { getPlayers } from './requests/players';
 
 const app = express();
-const port = 3000;
+const port = 7300;
 const axios = require('axios');
 
+dotenv.config({path: __dirname + '/../.env'});
 export const API_KEY = process.env['API_KEY'];
 
-const getPlayers = async () => {
-  return axios.get(`https://api.discoverygc.com/api/Online/GetPlayers/${API_KEY}`)
-    .then(response => {
-      console.log("response.data:");
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-};
+let currentPlayers = null;
 
-getPlayers();
+getPlayers()
+.then(data => currentPlayers = data)
+.finally(() => console.log("currentPlayers:", currentPlayers));
+
+setInterval(() => {
+  getPlayers()
+  .then(data => currentPlayers = data)
+  .finally(() => console.log("currentPlayers:", currentPlayers));
+}, 60000);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Home');
 });
 
 app.listen(port, () => {
