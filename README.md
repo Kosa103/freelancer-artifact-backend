@@ -4,6 +4,19 @@ Freelancer Artifact is a web application storing data about Freelancer Discovery
 This repo is the backend.
 Uses node.js, typescript, express, sqlite
 
+
+## HOW TO CREATE DATABASE AND createTables
+
+- npx tsc
+
+- node dist/initDatabase.js
+
+
+npx tsc compiles typescript code in "src/" into "dist/"
+
+node dist/initDatabase.js run the compiled code to create DB and tables.
+
+
 ## HOW TO BUILD AND RUN
 
 - npx tsc

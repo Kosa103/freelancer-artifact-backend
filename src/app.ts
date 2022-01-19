@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import * as sqlite from 'sqlite3';
 
 import { getPlayers } from './requests/players';
 
@@ -8,9 +9,17 @@ const port = 7300;
 const axios = require('axios');
 
 dotenv.config({path: __dirname + '/../.env'});
+export const sqlite3 = sqlite.verbose();
 export const API_KEY = process.env['API_KEY'];
 
 let currentPlayers = null;
+
+/* const db = new sqlite3.Database('../db/FreelancerArtifact.db', err => {
+  if (err) {
+      console.log("Error opening database:");
+      console.error(err);
+  }
+}); */
 
 getPlayers()
 .then(data => currentPlayers = data)
