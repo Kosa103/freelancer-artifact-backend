@@ -5,7 +5,7 @@ This repo is the backend.
 Uses node.js, typescript, express, sqlite
 
 
-## HOW TO CREATE DATABASE AND createTables
+## HOW TO CREATE DATABASE AND TABLES
 
 - npx tsc
 
