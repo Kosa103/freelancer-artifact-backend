@@ -1,17 +1,12 @@
 import { API_KEY } from '../app';
 import { PlayersResponse } from '../models/playersResponse.model';
+import { CONSOLE_LOGS } from '../helpers/console-logs';
 
 const axios = require('axios');
 
+
 export const getPlayers = async () => {
     return axios.get(`https://api.discoverygc.com/api/Online/GetPlayers/${API_KEY}`)
-        .then(response => {
-            console.log("response.data:");
-            console.log(response.data);
-            return new PlayersResponse(response.data);
-        })
-        .catch(error => {
-            console.log("An error occurred:");
-            console.error(error);
-        });
+        .then(response =>  new PlayersResponse(response.data))
+        .catch(err => CONSOLE_LOGS.GENERIC.logError(err, "getPlayers"));
 };

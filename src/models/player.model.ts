@@ -1,16 +1,28 @@
 export class Player {
+    id: number;
     name: string;
-    system: string;
-    region: string;
-    time: string;
-    currentTime: Date;
+    level: number;
+    description: string;
+    updatedAtDate: string;
+    shipId: number;
+    affiliationId: number;
+    identifierId: number;
+    scannerId: number;
+    armorId: number;
+    cloakId: number;
 
     constructor(player?) {
         player = player || {};
+        this.id = player.id || null;
         this.name = player.name || "";
-        this.system = player.system || "";
-        this.region = player.region || "";
-        this.time = player.time || "";
-        this.currentTime = player.currentTime || new Date();
+        this.level = player.level || null;
+        this.description = player.description || "";
+        this.updatedAtDate = player.updatedAtDate || "";
+        this.shipId = player.shipId || null;
+        this.affiliationId = player.affiliationId || null;
+        this.identifierId = player.identifierId || null;
+        this.scannerId = player.scannerId || null;
+        this.armorId = player.armorId || null;
+        this.cloakId = player.cloakId || null;
     }
 }
