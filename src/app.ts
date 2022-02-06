@@ -5,10 +5,10 @@ dotenv.config({path: __dirname + '/../.env'});
 import * as sqlite from 'sqlite3';
 
 import { getPlayers } from './requests/players';
-import { handleGetHome } from './handlers/home';
 import { CONSOLE_LOGS } from './helpers/console-logs';
 import { PlayersResponse } from './models/playersResponse.model';
 import { insertLocation } from './database-operations/locations';
+import { setEndpoints } from './api/setEndpoints';
 
 
 export const app = express();
@@ -40,7 +40,7 @@ const getPlayersCycle = () => {
 
 const main = async () => {
   getPlayersCycle();
-  handleGetHome();
+  setEndpoints();
 }
 
 
