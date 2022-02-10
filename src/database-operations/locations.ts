@@ -9,7 +9,7 @@ import { currentPlayers } from '../app';
 export const insertLocation = async () => {
     try {
         for (const player of currentPlayers.players) {
-            const existingPlayer = await promisifyDbGet(SQL_PLAYERS.SELECT, { $name: player.name });
+            const existingPlayer = await promisifyDbGet(SQL_PLAYERS.SELECT_BY_NAME, { $name: player.name });
             let newPlayerId;
             if (!existingPlayer) {
                 newPlayerId = await promisifyDbRun(SQL_PLAYERS.INSERT, {
@@ -18,13 +18,13 @@ export const insertLocation = async () => {
                 });
             }
             
-            const existingRegion = await promisifyDbGet(SQL_REGIONS.SELECT, { $name: player.region });
+            const existingRegion = await promisifyDbGet(SQL_REGIONS.SELECT_BY_NAME, { $name: player.region });
             let newRegionId;
             if (!existingRegion) {
                 newRegionId = await promisifyDbRun(SQL_REGIONS.INSERT, { $name: player.region });
             }
     
-            const existingSystem = await promisifyDbGet(SQL_SYSTEMS.SELECT, { $name: player.system });
+            const existingSystem = await promisifyDbGet(SQL_SYSTEMS.SELECT_BY_NAME, { $name: player.system });
             let newSystemId;
     
             if (!existingSystem) {

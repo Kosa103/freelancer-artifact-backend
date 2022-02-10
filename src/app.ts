@@ -20,6 +20,10 @@ const port = 7300;
 export let currentPlayers: PlayersResponse = null;
 
 
+const initApp = () => {
+  app.use(express.json());
+}
+
 const getPlayersCycle = () => {
   getPlayers()
   .then(data => {
@@ -39,6 +43,7 @@ const getPlayersCycle = () => {
 }
 
 const main = async () => {
+  initApp();
   getPlayersCycle();
   setEndpoints();
 }
