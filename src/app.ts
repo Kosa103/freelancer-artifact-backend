@@ -1,5 +1,6 @@
 import process from 'process';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 dotenv.config({path: __dirname + '/../.env'});
 import * as sqlite from 'sqlite3';
@@ -14,14 +15,23 @@ import { setEndpoints } from './api/setEndpoints';
 export const app = express();
 export const sqlite3 = sqlite.verbose();
 export const API_KEY = process.env['API_KEY'];
+export const JWT_SECRET = process.env['JWT_SECRET'];
 export const db = new sqlite3.Database('./db/FreelancerArtifact.db', err => CONSOLE_LOGS.DATABASE.open(err));
 
 const port = 7300;
+const rateLimiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 1000,
+  message: 'Too many requests sent by this IP, please try again in an minute!',
+	standardHeaders: true,
+	legacyHeaders: false,
+});
 export let currentPlayers: PlayersResponse = null;
 
 
 const initApp = () => {
   app.use(express.json());
+  app.use(rateLimiter);
 }
 
 const getPlayersCycle = () => {
@@ -44,8 +54,8 @@ const getPlayersCycle = () => {
 
 const main = async () => {
   initApp();
-  getPlayersCycle();
   setEndpoints();
+  getPlayersCycle();
 }
 
 

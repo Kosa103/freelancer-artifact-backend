@@ -3,6 +3,7 @@ export class User {
     name: string;
     hash: string;
     isAdmin: boolean;
+    token: string;
 
     constructor(user?) {
         user = user || {};
@@ -10,5 +11,6 @@ export class User {
         this.name = user.name || "";
         this.hash = user.hash || "";
         this.isAdmin = user.isAdmin || false;
+        this.token = user.token || "";
     }
 }

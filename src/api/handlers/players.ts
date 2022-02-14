@@ -13,10 +13,12 @@ import { selectScannerById } from '../../database-operations/scanners';
 import { selectArmorById } from '../../database-operations/armors';
 import { selectCloakById } from '../../database-operations/cloaks';
 import { Player } from '../../models/player.model';
+import { authenticate as auth } from '../../middleware/auth';
+import { ADMIN_API_PATH } from '../../constants';
 
 
 export const getOnlinePlayers = () => {
-    app.get('/players-online', (req, res) => {
+    app.get(`${ADMIN_API_PATH}/players-online`, (req, res) => {
         if (currentPlayers.error) {
             throw new Error(currentPlayers.error);
         } else {
@@ -26,7 +28,7 @@ export const getOnlinePlayers = () => {
 };
 
 export const getPlayers = () => {
-    app.get('/players', async (req, res, next) => {
+    app.get(`${ADMIN_API_PATH}/players`, async (req, res, next) => {
         try {
             const players: Player[] = await selectAllPlayers();
             res.send(JSON.stringify(players));
@@ -37,19 +39,20 @@ export const getPlayers = () => {
 };
 
 export const getPlayer = () => {
-    app.get('/players/:id', async (req, res, next) => {
+    app.get(`${ADMIN_API_PATH}/players/:id`, async (req, res, next) => {
         try {
             const player: Player = await selectPlayerById(req.params.id);
             res.send(player);
         } catch (err) {
             next(err);
         }
-    })
+    });
 };
 
 export const postPlayer = () => {
     app.post(
-        '/players',
+        `${ADMIN_API_PATH}/players`,
+        auth,
         body('name').isLength({ min: 1, max: 64 }),
         body('level').isInt().optional({ nullable: true }),
         body('description').isLength({ max: 5000 }).optional({ nullable: true }),
@@ -177,12 +180,13 @@ export const postPlayer = () => {
             } catch (err) {
                 next(err);
             }
-    })
+    });
 };
 
 export const putPlayer = () => {
     app.put(
-        '/players/:id',
+        `${ADMIN_API_PATH}/players/:id`,
+        auth,
         body('name').isLength({ min: 1, max: 64 }),
         body('level').isInt().optional({ nullable: true }),
         body('description').isLength({ max: 5000 }).optional({ nullable: true }),
@@ -310,5 +314,5 @@ export const putPlayer = () => {
             } catch (err) {
                 next(err);
             }
-    })
+    });
 };

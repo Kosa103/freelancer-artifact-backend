@@ -2,8 +2,10 @@ import {
     postPlayer,
     getOnlinePlayers,
     getPlayer,
-    getPlayers
+    getPlayers,
+    putPlayer
 } from "./handlers/players"
+import { createUser, loginUser } from "./handlers/users";
 
 
 export const setEndpoints = (): void => {
@@ -11,4 +13,8 @@ export const setEndpoints = (): void => {
     getPlayers();
     getPlayer();
     postPlayer();
+    putPlayer();
+
+    createUser();
+    loginUser();
 }
