@@ -2,9 +2,7 @@ import { body, validationResult } from 'express-validator';
 import { app, JWT_SECRET } from '../../app';
 import {
     insertUserFull,
-    selectUserByHash,
-    selectUserById,
-    selectUserByName,
+    selectUserByEmail,
 } from '../../database-operations/users';
 import { User } from '../../models/user.model';
 import { authenticate as auth } from '../../middleware/auth';
@@ -18,6 +16,7 @@ export const createUser = () => {
     app.post(
         `${ADMIN_API_PATH}/users`,
         auth,
+        body('email').isLength({ min: 5, max: 64 }),
         body('name').isLength({ min: 3, max: 64 }),
         body('password').isLength({ min: 8, max: 64 }),
         body('passwordConfirmation').custom((value, { req }) => {
@@ -37,39 +36,31 @@ export const createUser = () => {
             const hash = await bcrypt.hash(req.body.password, salt);
             
             const user = new User({
+                email: req.body.email,
                 name: req.body.name,
                 hash: hash,
                 isAdmin: req.body.isAdmin,
             });
             try {
-                let existingUser = await selectUserByName(user.name);
+                let existingUser = await selectUserByEmail(user.email);
                 if (existingUser) {
                     return res.status(400).json({ errors: [
                         {
                             "location": "body",
-                            "msg": "User name already in use",
-                            "param": "name"
-                        }
-                    ] });
-                }
-
-                existingUser = await selectUserByHash(user.hash);
-                if (existingUser) {
-                    return res.status(400).json({ errors: [
-                        {
-                            "location": "body",
-                            "msg": "Choose a different password",
-                            "param": "name"
+                            "msg": "Email address already in use",
+                            "param": "email"
                         }
                     ] });
                 }
 
                 const createdUser = await insertUserFull({
+                    email: user.email,
                     name: user.name,
                     hash: user.hash,
                     isAdmin: user.isAdmin,
                     token: user.token,
                 })
+                createdUser.hash = null;
                 res.send(JSON.stringify(createdUser));
             } catch (err) {
                 next(err);
@@ -80,7 +71,7 @@ export const createUser = () => {
 export const loginUser = () => {
     app.post(
         `${ADMIN_API_PATH}/login`,
-        body('name').isLength({ min: 3, max: 64 }),
+        body('email').isLength({ min: 5, max: 64 }),
         body('password').isLength({ min: 8, max: 64}),
         async (req, res, next) => {
             const validationErrors = validationResult(req);
@@ -89,14 +80,13 @@ export const loginUser = () => {
             }
 
             try {
-                const user = await selectUserByName(req.body.name);
-                user.hash = null;
+                const user = await selectUserByEmail(req.body.email);
                 if (!user) {
                     return res.status(401).json({ errors: [
                         {
                             "location": "body",
                             "msg": "User does not exist",
-                            "param": "name"
+                            "param": "email"
                         }
                     ] });
                 }
@@ -107,12 +97,12 @@ export const loginUser = () => {
                         {
                             "location": "body",
                             "msg": "Invalid password",
-                            "param": "name"
+                            "param": "email"
                         }
                     ] });
                 } else {
                     const token = jwt.sign(
-                        { userName: user.name },
+                        { email: user.email },
                         JWT_SECRET,
                         {
                             expiresIn: "90d",

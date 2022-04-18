@@ -28,7 +28,10 @@ export const getOnlinePlayers = () => {
 };
 
 export const getPlayers = () => {
-    app.get(`${ADMIN_API_PATH}/players`, async (req, res, next) => {
+    app.get(
+        `${ADMIN_API_PATH}/players`,
+        auth,
+        async (req, res, next) => {
         try {
             const players: Player[] = await selectAllPlayers();
             res.send(JSON.stringify(players));
@@ -39,7 +42,10 @@ export const getPlayers = () => {
 };
 
 export const getPlayer = () => {
-    app.get(`${ADMIN_API_PATH}/players/:id`, async (req, res, next) => {
+    app.get(
+        `${ADMIN_API_PATH}/players/:id`,
+        auth,
+        async (req, res, next) => {
         try {
             const player: Player = await selectPlayerById(req.params.id);
             res.send(player);

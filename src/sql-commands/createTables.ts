@@ -2,8 +2,9 @@ export const SQL_CREATE_TABLE = {
     USERS: `
         CREATE TABLE IF NOT EXISTS Users (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE,
-            hash TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL UNIQUE,
+            name TEXT NOT NULL,
+            hash TEXT NOT NULL,
             isAdmin BOOLEAN NOT NULL,
             token TEXT
         )

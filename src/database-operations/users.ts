@@ -21,9 +21,9 @@ export const selectUserById = async (id: string): Promise<User> => {
     }
 };
 
-export const selectUserByName = async (name: string): Promise<User> => {
+export const selectUserByEmail = async (email: string): Promise<User> => {
     try {
-        const user = await promisifyDbGet(SQL_USERS.SELECT_BY_NAME, { $name: name });
+        const user = await promisifyDbGet(SQL_USERS.SELECT_BY_EMAIL, { $email: email });
         return user ? new User(user) : null;
     } catch (err) {
         return err;
@@ -40,6 +40,7 @@ export const selectUserByHash = async (hash: string): Promise<User> => {
 };
 
 export const insertUserFull = async ({
+    email,
     name,
     hash,
     isAdmin,
@@ -47,6 +48,7 @@ export const insertUserFull = async ({
 }) => {
     try {
         const newUserId = await promisifyDbRun(SQL_USERS.INSERT_FULL, {
+            $email: email,
             $name: name,
             $hash: hash,
             $isAdmin: isAdmin,
@@ -64,6 +66,7 @@ export const insertUserFull = async ({
 
 export const updateUserFull = async ({
     id,
+    email,
     name,
     hash,
     isAdmin,
@@ -72,6 +75,7 @@ export const updateUserFull = async ({
     try {
         const newUserId = await promisifyDbRun(SQL_USERS.UPDATE_FULL, {
             $id: id,
+            $email: email,
             $name: name,
             $hash: hash,
             $isAdmin: isAdmin,
