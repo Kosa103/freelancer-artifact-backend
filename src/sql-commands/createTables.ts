@@ -1,5 +1,5 @@
 export const SQL_CREATE_TABLE = {
-    USERS: `
+  USERS: `
         CREATE TABLE IF NOT EXISTS Users (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             email TEXT NOT NULL UNIQUE,
@@ -9,14 +9,14 @@ export const SQL_CREATE_TABLE = {
             token TEXT
         )
     `,
-    SHIP_TYPES: `
+  SHIP_TYPES: `
         CREATE TABLE IF NOT EXISTS ShipTypes (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
             typicalSpeed INTEGER NOT NULL
         )
     `,
-    SHIPS: `
+  SHIPS: `
         CREATE TABLE IF NOT EXISTS Ships (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -26,19 +26,19 @@ export const SQL_CREATE_TABLE = {
             FOREIGN KEY (shipTypeId) REFERENCES ShipTypes (id)
         )
     `,
-    AFFILIATIONS: `
+  AFFILIATIONS: `
         CREATE TABLE IF NOT EXISTS Affiliations (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE
         )
     `,
-    IDENTIFIERS: `
+  IDENTIFIERS: `
         CREATE TABLE IF NOT EXISTS Identifiers (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE
         )
     `,
-    SCANNERS: `
+  SCANNERS: `
         CREATE TABLE IF NOT EXISTS Scanners (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -47,7 +47,7 @@ export const SQL_CREATE_TABLE = {
             price INTEGER NOT NULL
         )
     `,
-    ARMORS: `
+  ARMORS: `
         CREATE TABLE IF NOT EXISTS Armors (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -56,7 +56,7 @@ export const SQL_CREATE_TABLE = {
             price INTEGER NOT NULL
         )
     `,
-    CLOAKS: `
+  CLOAKS: `
         CREATE TABLE IF NOT EXISTS Cloaks (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -65,7 +65,7 @@ export const SQL_CREATE_TABLE = {
             requiredCargo INTEGER NOT NULL
         )
     `,
-    COMMODITIES: `
+  COMMODITIES: `
         CREATE TABLE IF NOT EXISTS Commodities (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -74,7 +74,7 @@ export const SQL_CREATE_TABLE = {
             requiredCargo INTEGER NOT NULL
         )
     `,
-    PLAYERS: `
+  PLAYERS: `
         CREATE TABLE IF NOT EXISTS Players (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -95,13 +95,13 @@ export const SQL_CREATE_TABLE = {
             FOREIGN KEY (cloakId) REFERENCES Cloaks (id)
         )
     `,
-    REGIONS: `
+  REGIONS: `
         CREATE TABLE IF NOT EXISTS Regions (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE
         )
     `,
-    SYSTEMS: `
+  SYSTEMS: `
         CREATE TABLE IF NOT EXISTS Systems (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
@@ -109,7 +109,7 @@ export const SQL_CREATE_TABLE = {
             FOREIGN KEY (RegionId) REFERENCES Regions (Id)
         )
     `,
-    LOCATIONS: `
+  LOCATIONS: `
         CREATE TABLE IF NOT EXISTS Locations (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             systemId INTEGER NOT NULL,
@@ -120,7 +120,7 @@ export const SQL_CREATE_TABLE = {
             FOREIGN KEY (systemId) REFERENCES Systems (id)
         )
     `,
-    CARRIED_COMMODITIES: `
+  CARRIED_COMMODITIES: `
         CREATE TABLE IF NOT EXISTS CarriedCommodities (
             playerId INTEGER NOT NULL,
             commodityId INTEGER NOT NULL,
