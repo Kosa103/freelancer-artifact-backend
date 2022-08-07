@@ -5,7 +5,7 @@ export const SQL_LOCATIONS = {
     return `
       SELECT * FROM Locations
       WHERE playerId = ${query.playerId}
-      ORDER BY date, time DESC
+      ORDER BY date DESC, time DESC
       ${limit}
     `;
   },
