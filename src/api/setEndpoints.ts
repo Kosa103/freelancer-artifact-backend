@@ -1,20 +1,29 @@
+import { getPlayerLocations } from "./handlers/locations";
 import {
-    postPlayer,
-    getOnlinePlayers,
-    getPlayer,
-    getPlayers,
-    putPlayer
+  postPlayer,
+  getOnlinePlayers,
+  getPlayer,
+  getPlayers,
+  putPlayer
 } from "./handlers/players"
+import { getRegions } from "./handlers/regions";
+import { getSystems } from "./handlers/systems";
 import { createUser, loginUser } from "./handlers/users";
 
 
 export const setEndpoints = (): void => {
-    getOnlinePlayers();
-    getPlayers();
-    getPlayer();
-    postPlayer();
-    putPlayer();
+  getOnlinePlayers();
+  getPlayers();
+  getPlayer();
+  postPlayer();
+  putPlayer();
 
-    createUser();
-    loginUser();
+  getSystems();
+
+  getRegions();
+
+  getPlayerLocations();
+
+  createUser();
+  loginUser();
 }

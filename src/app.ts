@@ -22,7 +22,7 @@ const port = 7300;
 const rateLimiter = rateLimit({
   max: 100,
   windowMs: 60 * 1000,
-  message: 'Too many requests sent by this IP, please try again in an minute!',
+  message: 'Too many requests sent by this IP, please try again in a minute!',
 	standardHeaders: true,
 	legacyHeaders: false,
 });
