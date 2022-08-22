@@ -1,3 +1,3 @@
 import os
 
-os.system("sudo reboot 3")
+os.system("sudo shutdown -r 3")
