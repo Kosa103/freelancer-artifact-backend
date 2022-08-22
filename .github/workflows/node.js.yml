@@ -26,4 +26,4 @@ jobs:
           git pull origin master
           npm install
           npx tsc
-          python3 start.py
+          python3 restart.py
