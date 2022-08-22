@@ -10,13 +10,14 @@ import { CONSOLE_LOGS } from './helpers/console-logs';
 import { PlayersResponse } from './models/playersResponse.model';
 import { insertLocation } from './database-operations/locations';
 import { setEndpoints } from './api/setEndpoints';
+import { DATABASE_PATH } from './constants';
 
 
 export const app = express();
 export const sqlite3 = sqlite.verbose();
 export const API_KEY = process.env['API_KEY'];
 export const JWT_SECRET = process.env['JWT_SECRET'];
-export const db = new sqlite3.Database('./db/FreelancerArtifact.db', err => CONSOLE_LOGS.DATABASE.open(err));
+export const db = new sqlite3.Database(DATABASE_PATH, err => CONSOLE_LOGS.DATABASE.open(err));
 
 const port = 7300;
 const rateLimiter = rateLimit({
