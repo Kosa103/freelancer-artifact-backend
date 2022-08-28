@@ -2,6 +2,7 @@ import process from 'process';
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config({path: __dirname + '/../.env'});
 import * as sqlite from 'sqlite3';
 
@@ -32,6 +33,7 @@ export let currentPlayers: PlayersResponse = null;
 
 const initApp = () => {
   app.use(express.json());
+  app.use(cors());
   app.use(rateLimiter);
 }
 
