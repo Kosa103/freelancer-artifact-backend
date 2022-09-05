@@ -1,6 +1,7 @@
 import { body, validationResult } from 'express-validator';
 import { app, currentPlayers } from '../../app';
 import {
+  countAllPlayers,
   insertPlayerFull,
   selectAllPlayers,
   selectPlayerById,
@@ -13,6 +14,7 @@ import { selectScannerById } from '../../database-operations/scanners';
 import { selectArmorById } from '../../database-operations/armors';
 import { selectCloakById } from '../../database-operations/cloaks';
 import { Player } from '../../models/player.model';
+import { PaginatedResponse } from '../../models/paginated-response.model';
 import { authenticate as auth } from '../../middleware/auth';
 import { ADMIN_API_PATH } from '../../constants';
 
@@ -32,11 +34,23 @@ export const getPlayers = () => {
     `${ADMIN_API_PATH}/players`,
     auth,
     async (req, res, next) => {
-      const search = req.query?.search || null;
+      let start: number = Number(req.query?.start);
+      let limit: number = Number(req.query?.limit);
+      let search = req.query?.search;
+
+      if (!limit || limit % 1 !== 0 || limit <= 0) {
+        limit = null;
+      }
+
+      if (!limit || !start || start % 1 !== 0 || start <= 0) {
+        start = null;
+      }
 
       try {
-        const players: Player[] = await selectAllPlayers({ search });
-        res.send(JSON.stringify(players));
+        const players: Player[] = await selectAllPlayers({ search, limit, start });
+        const count: number = await countAllPlayers({ search });
+        const response = new PaginatedResponse({ data: players, count });
+        res.send(JSON.stringify(response));
       } catch (err) {
         next(err);
       }

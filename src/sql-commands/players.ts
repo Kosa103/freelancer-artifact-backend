@@ -2,11 +2,20 @@ export const SQL_PLAYERS = {
   SELECT_ALL: `
       SELECT * FROM Players ORDER BY name ASC
     `,
-  SELECT_ALL_FILTER: search => {
+  SELECT_ALL_FILTER: ({ search, limit, start }) => {
     return `
       SELECT * FROM Players
-      WHERE name LIKE '%${search}%'
+      ${search ? `WHERE name LIKE '%${search}%'` : ''}
       ORDER BY name ASC
+      ${limit ? `LIMIT ${limit}` : ''}
+      ${start ? `OFFSET ${start}` : ''}
+    `;
+  },
+  COUNT_ALL_FILTER: ({ search }) => {
+    return `
+      SELECT COUNT(id)
+      FROM Players
+      ${search ? `WHERE name LIKE '%${search}%'` : ''}
     `;
   },
   SELECT_BY_ID: `
