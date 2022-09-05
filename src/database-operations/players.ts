@@ -5,12 +5,23 @@ import { SQL_PLAYERS } from "../sql-commands/players"
 
 export const selectAllPlayers = async (query): Promise<Player[]> => {
   const search = query.search || null;
+  const limit = query.limit || null;
+  const start = query.start || null;
 
   try {
-    const players = search ?
-      await promisifyDbAll(SQL_PLAYERS.SELECT_ALL_FILTER(search)) :
-      await promisifyDbAll(SQL_PLAYERS.SELECT_ALL);
+    const players = await promisifyDbAll(SQL_PLAYERS.SELECT_ALL_FILTER({ search, limit, start }));
     return players.map(player => new Player(player));
+  } catch (err) {
+    return err;
+  }
+};
+
+export const countAllPlayers = async (query): Promise<number> => {
+  const search = query.search || null;
+
+  try {
+    const playerCount = await promisifyDbGet(SQL_PLAYERS.COUNT_ALL_FILTER({ search }));
+    return playerCount?.['COUNT(id)'];
   } catch (err) {
     return err;
   }
