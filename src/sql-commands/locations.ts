@@ -1,12 +1,18 @@
 export const SQL_LOCATIONS = {
-  SELECT_BY_PLAYER_ID: query => {
-    const limit = query.limit ? `LIMIT ${query.limit}` : '';
-
+  SELECT_BY_PLAYER_ID: ({ playerId, limit, start }) => {
     return `
       SELECT * FROM Locations
-      WHERE playerId = ${query.playerId}
+      WHERE playerId = ${playerId}
       ORDER BY date DESC, time DESC
-      ${limit}
+      ${limit ? `LIMIT ${limit}` : ''}
+      ${start ? `OFFSET ${start}` : ''}
+    `;
+  },
+  COUNT_BY_PLAYER_ID: ({ playerId }) => {
+    return `
+      SELECT COUNT(id)
+      FROM Locations
+      WHERE playerId = ${playerId}
     `;
   },
   INSERT: `
