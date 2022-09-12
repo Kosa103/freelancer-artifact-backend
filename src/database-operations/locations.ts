@@ -8,9 +8,24 @@ import { Location } from '../models/location.model';
 
 
 export const selectLocationByPlayerId = async (query) => {
+  const playerId = query.playerId;
+  const limit = query.limit || null;
+  const start = query.start || null;
+
   try {
-    const playerLocations = await promisifyDbAll(SQL_LOCATIONS.SELECT_BY_PLAYER_ID(query));
+    const playerLocations = await promisifyDbAll(SQL_LOCATIONS.SELECT_BY_PLAYER_ID({ playerId, limit, start }));
     return playerLocations.map(location => new Location(location));
+  } catch (err) {
+    return err;
+  }
+};
+
+export const countLocations = async (query): Promise<number> => {
+  const playerId = query.playerId;
+
+  try {
+    const locationCount = await promisifyDbGet(SQL_LOCATIONS.COUNT_BY_PLAYER_ID({ playerId }));
+    return locationCount?.['COUNT(id)'];
   } catch (err) {
     return err;
   }
